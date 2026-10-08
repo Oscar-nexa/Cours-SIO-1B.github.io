@@ -19,6 +19,16 @@ index.html        ← le site (ne pas toucher)
 2. Pour mettre le fichier dans une rubrique, tape le chemin du dossier dans le nom du fichier, par exemple `cours/Maths/chapitre1.pdf`. Sinon, glisse le fichier dans un dossier existant (ouvre d'abord le dossier sur GitHub, puis *Add file → Upload files*).
 3. Clique sur **Commit changes**. Le document apparaît sur le site au bout d'une minute environ.
 
+## Nommer un fichier
+
+Chaque fichier doit avoir dans son nom :
+
+1. le **thème du cours** ;
+2. le **numéro de la matière** ;
+3. la **date du cours** qui a eu lieu (format `AAAA-MM-JJ`).
+
+Exemple : `Adressage-IP_matiere3_2026-10-08.pdf`
+
 ## Ajouter une rubrique
 
 *Add file → Create new file*, puis tape dans le nom : `cours/NomDeLaRubrique/.gitkeep`, puis *Commit changes*. La rubrique apparaît dans le menu du site (un dossier vide n'existe pas dans Git, d'où le fichier `.gitkeep`).
