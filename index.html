@@ -1,148 +1,224 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cours SIO 1B</title>
 <style>
-  :root { --bg:#f5f7fb; --card:#fff; --text:#1c2333; --muted:#6b7280; --accent:#3b5bdb; --border:#e3e7ef; }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg:#12151c; --card:#1b2030; --text:#e8ebf3; --muted:#9aa3b5; --accent:#7c93ff; --border:#2b3248; }
+  :root{
+    --bg:#f6f7f9; --panel:#fff; --text:#1c2230; --muted:#6a7385; --line:#e3e6ec;
+    --accent:#2f6fed; --accent-soft:#e8effd; --danger:#c0392b;
   }
-  * { box-sizing: border-box; }
-  body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.5; }
-  header { padding:40px 20px 24px; text-align:center; }
-  header h1 { margin:0 0 8px; font-size:2rem; }
-  header p { margin:0; color:var(--muted); }
-  main { max-width:1000px; margin:0 auto; padding:0 20px 60px; }
-  .search { width:100%; padding:12px 16px; font-size:1rem; border:1px solid var(--border); border-radius:10px; background:var(--card); color:var(--text); margin-bottom:24px; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:18px; }
-  .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; display:flex; flex-direction:column; }
-  .card h2 { margin:0 0 4px; font-size:1.15rem; }
-  .card .count { color:var(--muted); font-size:.85rem; margin-bottom:12px; }
-  .card ul { list-style:none; padding:0; margin:0 0 16px; flex:1; }
-  .card li { padding:6px 0; border-bottom:1px solid var(--border); word-break:break-word; }
-  .card li:last-child { border-bottom:none; }
-  .card a { color:var(--accent); text-decoration:none; }
-  .card a:hover { text-decoration:underline; }
-  .empty { color:var(--muted); font-style:italic; }
-  .btn { display:block; text-align:center; background:var(--accent); color:#fff !important; padding:10px; border-radius:8px; font-weight:600; text-decoration:none; }
-  .btn:hover { opacity:.9; text-decoration:none !important; }
-  .help { margin-top:36px; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px 24px; }
-  .help h2 { margin-top:0; }
-  .error { background:#fde8e8; color:#9b1c1c; padding:12px 16px; border-radius:10px; margin-bottom:20px; }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#12151c; --panel:#1b1f29; --text:#e8ebf2; --muted:#98a1b3; --line:#2a3040;
+           --accent:#6b9bff; --accent-soft:#222c45; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text)}
+  header{display:flex;align-items:center;gap:16px;padding:14px 20px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  header h1{font-size:18px;margin:0;white-space:nowrap}
+  #search{flex:1;max-width:420px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text);font:inherit}
+  .btn{display:inline-block;padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);text-decoration:none;font-size:14px;cursor:pointer}
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.primary:hover{color:#fff;opacity:.9}
+  .layout{display:flex;max-width:1200px;margin:0 auto;gap:24px;padding:24px 20px}
+  nav{width:240px;flex-shrink:0}
+  nav h2{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:18px 0 6px;padding:0 10px}
+  nav h2:first-child{margin-top:0}
+  nav button{display:flex;justify-content:space-between;width:100%;text-align:left;padding:8px 10px;border:0;border-radius:8px;background:none;color:var(--text);font:inherit;cursor:pointer}
+  nav button:hover{background:var(--accent-soft)}
+  nav button.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
+  nav .count{color:var(--muted);font-weight:400}
+  main{flex:1;min-width:0}
+  main h2{margin:0 0 4px;font-size:22px}
+  .sub{color:var(--muted);margin:0 0 16px}
+  .list{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--line)}
+  .item:first-child{border-top:0}
+  .ext{flex-shrink:0;width:44px;text-align:center;font-size:11px;font-weight:700;padding:4px 0;border-radius:6px;background:var(--accent-soft);color:var(--accent);text-transform:uppercase}
+  .info{flex:1;min-width:0}
+  .name{font-weight:600;overflow-wrap:anywhere}
+  .meta{font-size:13px;color:var(--muted)}
+  .actions{display:flex;gap:8px;flex-shrink:0}
+  .empty,.error{padding:32px;text-align:center;color:var(--muted)}
+  .error{color:var(--danger)}
+  #viewer{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;z-index:10;padding:3vh 3vw}
+  #viewer.open{display:flex}
+  #viewer .box{flex:1;display:flex;flex-direction:column;background:var(--panel);border-radius:12px;overflow:hidden}
+  #viewer .bar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line)}
+  #viewer .bar span{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #viewer iframe,#viewer img{flex:1;width:100%;border:0;background:#fff;object-fit:contain;min-height:0}
+  @media (max-width:760px){
+    .layout{flex-direction:column;gap:12px;padding:14px}
+    nav{width:100%;display:flex;gap:6px;overflow-x:auto}
+    nav h2{display:none}
+    nav button{width:auto;white-space:nowrap;gap:6px;border:1px solid var(--line)}
+    .item{flex-wrap:wrap}
+    .actions{width:100%}
+    header{flex-wrap:wrap}
+  }
 </style>
 </head>
 <body>
-
 <header>
   <h1>📚 Cours SIO 1B</h1>
-  <p>Retrouve et ajoute les cours de chaque matière.</p>
+  <input id="search" type="search" placeholder="Rechercher un document…" autocomplete="off">
+  <a id="addBtn" class="btn primary" target="_blank" rel="noopener">+ Ajouter un document</a>
 </header>
 
-<main>
-  <input class="search" id="search" type="search" placeholder="Rechercher un cours…" aria-label="Rechercher un cours">
-  <div id="error"></div>
-  <div class="grid" id="grid"></div>
+<div class="layout">
+  <nav id="nav"></nav>
+  <main id="main"><div class="empty">Chargement…</div></main>
+</div>
 
-  <section class="help">
-    <h2>Comment ajouter un cours ?</h2>
-    <ol>
-      <li>Clique sur <b>« Ajouter un cours »</b> dans la matière concernée.</li>
-      <li>Connecte-toi à GitHub, puis glisse ton fichier (PDF, Word, image…).</li>
-      <li>Écris un petit message (ex : « Cours Maths – Probabilités »), puis clique sur <b>Commit changes</b>.</li>
-      <li>Si tu n'as pas les droits d'écriture, GitHub te proposera de créer une <i>Pull Request</i> : valide-la, elle sera acceptée par l'administrateur.</li>
-      <li>Attends 1 à 2 minutes : ton cours apparaît automatiquement ici.</li>
-    </ol>
-  </section>
-</main>
+<div id="viewer">
+  <div class="box">
+    <div class="bar">
+      <span id="vTitle"></span>
+      <a id="vDl" class="btn" download>Télécharger</a>
+      <button class="btn" id="vClose">Fermer ✕</button>
+    </div>
+    <div id="vBody" style="display:flex;flex:1;min-height:0"></div>
+  </div>
+</div>
 
 <script>
-  // ====== CONFIGURATION ======
-  const OWNER  = "Oscar-nexa";
-  const REPO   = "Cours-SIO-1B";
-  const BRANCH = "main";
+/* ============ CONFIGURATION ============ */
+const OWNER  = "Oscar-nexa";
+const REPO   = "Cours-SIO-1B.github.io";
+const BRANCH = "main";
+const COURS_DIR = "cours";   // chaque sous-dossier = une rubrique de cours
+const DIVERS_DIR = "divers"; // documents hors cours
+/* ======================================= */
 
-  // "folder" = nom du dossier dans le dépôt
-  const SUBJECTS = [
-    { name: "Mathématiques",                  icon: "➗", folder: "maths" },
-    { name: "Anglais",                        icon: "🇬🇧", folder: "anglais" },
-    { name: "CEJM",                           icon: "⚖️", folder: "cejm" },
-    { name: "Ateliers de professionnalisation", icon: "💼", folder: "ateliers-professionnalisation" },
-    { name: "Cybersécurité",                  icon: "🔐", folder: "cybersecurite" },
-    { name: "Support et mise à disposition",  icon: "🖥️", folder: "support-mise-a-disposition" },
-  ];
-  // ===========================
+const PREVIEW_EXT = ["pdf","png","jpg","jpeg","gif","webp","svg","txt","md"];
+const IMG_EXT = ["png","jpg","jpeg","gif","webp","svg"];
+const $ = s => document.querySelector(s);
+const enc = p => p.split("/").map(encodeURIComponent).join("/");
+const ext = n => (n.includes(".") ? n.split(".").pop().toLowerCase() : "");
+const size = b => b > 1048576 ? (b/1048576).toFixed(1)+" Mo" : Math.max(1,Math.round(b/1024))+" Ko";
 
-  const grid = document.getElementById("grid");
-  const search = document.getElementById("search");
-  let allPaths = [];
+let sections = [];   // {id,label,group,files:[{name,path,size,sub}]}
+let current = null;
 
-  const uploadUrl = f => `https://github.com/${OWNER}/${REPO}/upload/${BRANCH}/${f}`;
+$("#addBtn").href = `https://github.com/${OWNER}/${REPO}/upload/${BRANCH}/`;
 
-  function render() {
-    const q = search.value.trim().toLowerCase();
-    grid.innerHTML = "";
-    for (const s of SUBJECTS) {
-      const files = allPaths
-        .filter(p => p.startsWith(s.folder + "/") && !p.endsWith(".gitkeep"))
-        .filter(p => !q || p.toLowerCase().includes(q) || s.name.toLowerCase().includes(q));
+async function load(){
+  try{
+    const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`);
+    if(!r.ok) throw new Error(r.status===403 ? "Limite de requêtes GitHub atteinte, réessaie dans quelques minutes." : "Erreur GitHub ("+r.status+")");
+    const data = await r.json();
+    build(data.tree);
+  }catch(e){
+    $("#main").innerHTML = `<div class="error">${e.message}</div>`;
+  }
+}
 
-      const card = document.createElement("div");
-      card.className = "card";
+function build(tree){
+  const map = new Map();
+  const get = (id,label,group) => { if(!map.has(id)) map.set(id,{id,label,group,files:[]}); return map.get(id); };
 
-      const h = document.createElement("h2");
-      h.textContent = `${s.icon} ${s.name}`;
-      const c = document.createElement("div");
-      c.className = "count";
-      c.textContent = `${files.length} cours`;
-      const ul = document.createElement("ul");
-
-      if (!files.length) {
-        const li = document.createElement("li");
-        li.className = "empty";
-        li.textContent = "Aucun cours pour le moment.";
-        ul.appendChild(li);
+  for(const n of tree){
+    const parts = n.path.split("/");
+    // rubriques de cours : cours/<Rubrique>/...
+    if(parts[0]===COURS_DIR && parts.length>=3){
+      const s = get(parts[1], parts[1], "Cours");
+      if(n.type==="blob" && !parts[parts.length-1].startsWith(".")){
+        s.files.push({name:parts[parts.length-1], path:n.path, size:n.size, sub:parts.slice(2,-1).join(" / ")});
       }
-      for (const p of files) {
-        const li = document.createElement("li");
-        const a = document.createElement("a");
-        a.href = p.split("/").map(encodeURIComponent).join("/");
-        a.target = "_blank";
-        a.rel = "noopener";
-        a.textContent = p.slice(s.folder.length + 1);
-        li.appendChild(a);
-        ul.appendChild(li);
+    }
+    // divers/...
+    if(parts[0]===DIVERS_DIR && parts.length>=2 && n.type==="blob"){
+      const s = get("__divers","Divers","Autres");
+      if(!parts[parts.length-1].startsWith(".")){
+        s.files.push({name:parts[parts.length-1], path:n.path, size:n.size, sub:parts.slice(1,-1).join(" / ")});
       }
-
-      const btn = document.createElement("a");
-      btn.className = "btn";
-      btn.href = uploadUrl(s.folder);
-      btn.target = "_blank";
-      btn.rel = "noopener";
-      btn.textContent = "➕ Ajouter un cours";
-
-      card.append(h, c, ul, btn);
-      grid.appendChild(card);
     }
   }
+  if(!map.has("__divers")) get("__divers","Divers","Autres");
 
-  async function load() {
-    try {
-      const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`);
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      const data = await res.json();
-      allPaths = data.tree.filter(n => n.type === "blob").map(n => n.path);
-    } catch (e) {
-      document.getElementById("error").innerHTML =
-        `<div class="error">Impossible de charger la liste des cours (${e.message}). Vérifie que le dépôt est public.</div>`;
-    }
-    render();
-  }
-
-  search.addEventListener("input", render);
+  sections = [...map.values()].sort((a,b)=>{
+    if(a.group!==b.group) return a.group==="Cours" ? -1 : 1;
+    return a.label.localeCompare(b.label,"fr");
+  });
+  sections.forEach(s=>s.files.sort((a,b)=>a.name.localeCompare(b.name,"fr",{numeric:true})));
+  current = (sections.find(s=>s.group==="Cours") || sections[0]).id;
   render();
-  load();
+}
+
+function renderNav(){
+  const nav = $("#nav"); nav.innerHTML = "";
+  let lastGroup = null;
+  const q = $("#search").value.trim();
+  const all = document.createElement("button");
+  if(q){
+    all.className = "active";
+    all.innerHTML = `<span>Résultats</span>`;
+    nav.appendChild(all);
+  }
+  for(const s of sections){
+    if(s.group!==lastGroup){ const h=document.createElement("h2"); h.textContent=s.group; nav.appendChild(h); lastGroup=s.group; }
+    const b = document.createElement("button");
+    if(!q && s.id===current) b.className="active";
+    b.innerHTML = `<span>${esc(s.label)}</span><span class="count">${s.files.length}</span>`;
+    b.onclick = () => { $("#search").value=""; current=s.id; render(); };
+    nav.appendChild(b);
+  }
+}
+
+const esc = s => s.replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function render(){
+  renderNav();
+  const q = $("#search").value.trim().toLowerCase();
+  let title, subtitle, files;
+  if(q){
+    title = "Résultats de recherche";
+    files = sections.flatMap(s=>s.files.map(f=>({...f,rub:s.label}))).filter(f=>(f.name+" "+f.sub+" "+f.rub).toLowerCase().includes(q));
+    subtitle = `${files.length} document(s)`;
+  }else{
+    const s = sections.find(x=>x.id===current);
+    title = s.label;
+    files = s.files.map(f=>({...f,rub:s.label}));
+    subtitle = s.group==="Cours" ? "Rubrique de cours" : "Documents non liés aux cours";
+  }
+  const main = $("#main");
+  let html = `<h2>${esc(title)}</h2><p class="sub">${esc(subtitle)}</p>`;
+  if(!files.length){
+    html += `<div class="list"><div class="empty">Aucun document ici pour l'instant.</div></div>`;
+  }else{
+    html += `<div class="list">` + files.map((f,i)=>{
+      const e = ext(f.name), url = enc(f.path);
+      const canView = PREVIEW_EXT.includes(e);
+      const meta = [q ? f.rub : "", f.sub, size(f.size||0)].filter(Boolean).join(" · ");
+      return `<div class="item">
+        <div class="ext">${esc(e||"fichier")}</div>
+        <div class="info"><div class="name">${esc(f.name)}</div><div class="meta">${esc(meta)}</div></div>
+        <div class="actions">
+          ${canView ? `<button class="btn" data-view="${i}">Ouvrir</button>` : ""}
+          <a class="btn" href="${url}" download="${esc(f.name)}">Télécharger</a>
+        </div></div>`;
+    }).join("") + `</div>`;
+  }
+  main.innerHTML = html;
+  main.querySelectorAll("[data-view]").forEach(b=>b.onclick=()=>openViewer(files[+b.dataset.view]));
+}
+
+function openViewer(f){
+  const url = enc(f.path), e = ext(f.name);
+  $("#vTitle").textContent = f.name;
+  $("#vDl").href = url; $("#vDl").setAttribute("download", f.name);
+  $("#vBody").innerHTML = IMG_EXT.includes(e) ? `<img src="${url}" alt="">` : `<iframe src="${url}" title="${esc(f.name)}"></iframe>`;
+  $("#viewer").classList.add("open");
+}
+function closeViewer(){ $("#viewer").classList.remove("open"); $("#vBody").innerHTML=""; }
+$("#vClose").onclick = closeViewer;
+$("#viewer").onclick = e => { if(e.target.id==="viewer") closeViewer(); };
+document.addEventListener("keydown", e => { if(e.key==="Escape") closeViewer(); });
+$("#search").addEventListener("input", render);
+
+load();
 </script>
 </body>
 </html>
