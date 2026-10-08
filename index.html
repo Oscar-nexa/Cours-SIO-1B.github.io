@@ -2,221 +2,400 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cours SIO 1B</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cours SIO 1B (By Oscar)</title>
+<meta name="theme-color" content="#f6f1ea">
 <style>
-  :root{
-    --bg:#f6f7f9; --panel:#fff; --text:#1c2230; --muted:#6a7385; --line:#e3e6ec;
-    --accent:#2f6fed; --accent-soft:#e8effd; --danger:#c0392b;
+:root{
+  --bg:#efe9e0; --panel:#fffaf3; --panel2:#f6efe5; --text:#1f1b16; --muted:#7a7066; --line:#e6dccf;
+  --accent:#d94f4f; --accent-soft:#fbe4e1; --dark:#1f1b16; --on-dark:#fff;
+  --shadow:0 10px 30px rgba(60,40,20,.08); --radius:18px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121110; --panel:#1b1917; --panel2:#24211e; --text:#f1ece5; --muted:#a39a8f; --line:#2f2b27;
+    --accent:#ee6a67; --accent-soft:#3a2321; --dark:#f1ece5; --on-dark:#1b1917; --shadow:0 10px 30px rgba(0,0,0,.35);
   }
-  @media (prefers-color-scheme: dark){
-    :root{ --bg:#12151c; --panel:#1b1f29; --text:#e8ebf2; --muted:#98a1b3; --line:#2a3040;
-           --accent:#6b9bff; --accent-soft:#222c45; }
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text)}
-  header{display:flex;align-items:center;gap:16px;padding:14px 20px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
-  header h1{font-size:18px;margin:0;white-space:nowrap}
-  #search{flex:1;max-width:420px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text);font:inherit}
-  .btn{display:inline-block;padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);text-decoration:none;font-size:14px;cursor:pointer}
-  .btn:hover{border-color:var(--accent);color:var(--accent)}
-  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-  .btn.primary:hover{color:#fff;opacity:.9}
-  .layout{display:flex;max-width:1200px;margin:0 auto;gap:24px;padding:24px 20px}
-  nav{width:240px;flex-shrink:0}
-  nav h2{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:18px 0 6px;padding:0 10px}
-  nav h2:first-child{margin-top:0}
-  nav button{display:flex;justify-content:space-between;width:100%;text-align:left;padding:8px 10px;border:0;border-radius:8px;background:none;color:var(--text);font:inherit;cursor:pointer}
-  nav button:hover{background:var(--accent-soft)}
-  nav button.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
-  nav .count{color:var(--muted);font-weight:400}
-  main{flex:1;min-width:0}
-  main h2{margin:0 0 4px;font-size:22px}
-  .sub{color:var(--muted);margin:0 0 16px}
-  .list{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-  .item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--line)}
-  .item:first-child{border-top:0}
-  .ext{flex-shrink:0;width:44px;text-align:center;font-size:11px;font-weight:700;padding:4px 0;border-radius:6px;background:var(--accent-soft);color:var(--accent);text-transform:uppercase}
-  .info{flex:1;min-width:0}
-  .name{font-weight:600;overflow-wrap:anywhere}
-  .meta{font-size:13px;color:var(--muted)}
-  .actions{display:flex;gap:8px;flex-shrink:0}
-  .empty,.error{padding:32px;text-align:center;color:var(--muted)}
-  .error{color:var(--danger)}
-  #viewer{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;z-index:10;padding:3vh 3vw}
-  #viewer.open{display:flex}
-  #viewer .box{flex:1;display:flex;flex-direction:column;background:var(--panel);border-radius:12px;overflow:hidden}
-  #viewer .bar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line)}
-  #viewer .bar span{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  #viewer iframe,#viewer img{flex:1;width:100%;border:0;background:#fff;object-fit:contain;min-height:0}
-  @media (max-width:760px){
-    .layout{flex-direction:column;gap:12px;padding:14px}
-    nav{width:100%;display:flex;gap:6px;overflow-x:auto}
-    nav h2{display:none}
-    nav button{width:auto;white-space:nowrap;gap:6px;border:1px solid var(--line)}
-    .item{flex-wrap:wrap}
-    .actions{width:100%}
-    header{flex-wrap:wrap}
-  }
+}
+:root[data-theme="dark"]{
+  --bg:#121110; --panel:#1b1917; --panel2:#24211e; --text:#f1ece5; --muted:#a39a8f; --line:#2f2b27;
+  --accent:#ee6a67; --accent-soft:#3a2321; --dark:#f1ece5; --on-dark:#1b1917; --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:15px/1.5 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+button{font:inherit;color:inherit}
+svg{width:20px;height:20px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- cadre ---------- */
+.app{display:flex;min-height:100vh;max-width:1500px;margin:0 auto;padding:18px;gap:18px}
+.sidebar{width:280px;flex-shrink:0;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:20px 14px;display:flex;flex-direction:column;position:sticky;top:18px;height:calc(100vh - 36px);overflow:hidden}
+.brand{display:flex;align-items:center;gap:10px;padding:0 10px 18px;font-weight:700;font-size:17px;line-height:1.2}
+.logo{width:34px;height:34px;border-radius:10px;background:var(--accent);color:#fff;display:grid;place-items:center;flex-shrink:0}
+.brand small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.menu{flex:1;overflow-y:auto;padding-right:2px}
+.menu-title{display:flex;align-items:center;justify-content:space-between;width:100%;border:0;background:none;cursor:pointer;
+  font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:14px 10px 6px}
+.menu-title svg{width:16px;height:16px;transition:transform .2s}
+.menu-title[aria-expanded="false"] svg{transform:rotate(-90deg)}
+.group{overflow:hidden;transition:max-height .25s ease}
+.group.closed{max-height:0 !important}
+.item-btn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:none;cursor:pointer;
+  padding:10px 12px;border-radius:12px;margin:2px 0;color:var(--text)}
+.item-btn span.lbl{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item-btn:hover{background:var(--panel2)}
+.item-btn.active{background:var(--dark);color:var(--on-dark)}
+.cnt{font-size:12px;padding:1px 8px;border-radius:999px;background:var(--panel2);color:var(--muted)}
+.item-btn.active .cnt{background:rgba(255,255,255,.18);color:inherit}
+:root[data-theme="dark"] .item-btn.active .cnt{background:rgba(0,0,0,.12)}
+.side-foot{padding:12px 6px 0;border-top:1px solid var(--line);display:flex;gap:8px}
+
+.content{flex:1;min-width:0;display:flex;flex-direction:column;gap:16px}
+.topbar{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:12px 16px;position:sticky;top:18px;z-index:5}
+.title{font-weight:700;font-size:18px;white-space:nowrap}
+.search{flex:1;display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:0 14px;max-width:460px;margin-left:auto}
+.search input{flex:1;min-width:0;border:0;background:none;color:var(--text);font:inherit;padding:9px 0;outline:none}
+.icon-btn{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--panel);cursor:pointer;color:var(--text);flex-shrink:0}
+.icon-btn:hover{border-color:var(--accent);color:var(--accent)}
+.burger{display:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 14px;border-radius:12px;border:1px solid var(--line);
+  background:var(--panel);color:var(--text);text-decoration:none;font-size:14px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{color:#fff;opacity:.9}
+.btn.dark{background:var(--dark);border-color:var(--dark);color:var(--on-dark)}
+.btn.dark:hover{color:var(--on-dark);opacity:.88}
+.btn svg{width:16px;height:16px}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+.crumbs{color:var(--muted);font-size:14px;margin-bottom:6px}
+.crumbs b{color:var(--text);font-weight:600}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.head h2{margin:0;font-size:26px;line-height:1.2}
+.head p{margin:2px 0 0;color:var(--muted)}
+.sort{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:14px}
+.files{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.file{display:flex;flex-direction:column;gap:12px;background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:14px}
+.file-top{display:flex;gap:12px;align-items:flex-start}
+.badge{flex-shrink:0;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:11px;font-weight:800;text-transform:uppercase;
+  background:var(--accent-soft);color:var(--accent)}
+.badge.video{background:var(--accent);color:#fff}
+.badge.video svg{fill:currentColor;stroke:none;width:20px;height:20px}
+.fname{font-weight:600;overflow-wrap:anywhere}
+.meta{font-size:13px;color:var(--muted)}
+.chip{display:inline-block;font-size:12px;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:1px 9px;margin-right:4px}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.acts .btn{flex:1}
+.empty,.error{padding:40px 16px;text-align:center;color:var(--muted)}
+.error{color:var(--accent)}
+.empty svg{width:40px;height:40px;opacity:.5;margin-bottom:6px}
+
+/* ---------- visionneuse ---------- */
+#viewer{position:fixed;inset:0;background:rgba(10,8,6,.72);display:none;z-index:50;padding:3vh 3vw;backdrop-filter:blur(3px)}
+#viewer.open{display:flex}
+.box{flex:1;display:flex;flex-direction:column;background:var(--panel);border-radius:var(--radius);overflow:hidden;min-height:0;max-width:1300px;margin:0 auto;width:100%}
+.bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.bar .vt{flex:1;min-width:120px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#vBody{flex:1;min-height:0;display:flex;background:#0d0c0b;align-items:center;justify-content:center}
+#vBody iframe{flex:1;width:100%;height:100%;border:0;background:#fff}
+#vBody img{max-width:100%;max-height:100%;object-fit:contain}
+#vBody video{width:100%;height:100%;background:#000}
+#vBody audio{width:90%}
+#vBody pre{margin:0;width:100%;height:100%;overflow:auto;padding:18px;color:#eee;white-space:pre-wrap;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace;align-self:flex-start}
+.scrim{display:none}
+
+/* ---------- tablette ---------- */
+@media (max-width:1100px){
+  .app{padding:12px;gap:12px}
+  .sidebar{width:230px;top:12px;height:calc(100vh - 24px)}
+  .topbar{top:12px}
+  .files{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+}
+/* ---------- mobile : menu en tiroir ---------- */
+@media (max-width:860px){
+  .app{display:block;padding:10px}
+  .burger{display:grid}
+  .sidebar{position:fixed;z-index:40;top:0;left:0;bottom:0;height:auto;width:min(86vw,320px);border-radius:0 var(--radius) var(--radius) 0;
+    transform:translateX(-105%);transition:transform .25s ease;padding-top:max(20px,env(safe-area-inset-top))}
+  body.menu-open .sidebar{transform:none}
+  body.menu-open .scrim{display:block;position:fixed;inset:0;background:rgba(10,8,6,.5);z-index:30}
+  .topbar{top:10px;padding:10px 12px;flex-wrap:wrap;gap:10px}
+  .title{font-size:16px;white-space:normal;flex:1}
+  .search{order:5;flex-basis:100%;max-width:none;margin-left:0}
+  .content{gap:12px}
+  .card{padding:16px;margin-top:12px}
+  .head h2{font-size:22px}
+  .files{grid-template-columns:1fr}
+  .hide-m{display:none}
+  #viewer{padding:0}
+  .box{border-radius:0;max-width:none}
+}
 </style>
 </head>
 <body>
-<header>
-  <h1>📚 Cours SIO 1B</h1>
-  <input id="search" type="search" placeholder="Rechercher un document…" autocomplete="off">
-  <a id="addBtn" class="btn primary" target="_blank" rel="noopener">+ Ajouter un document</a>
-</header>
 
-<div class="layout">
-  <nav id="nav"></nav>
-  <main id="main"><div class="empty">Chargement…</div></main>
+<div class="app">
+  <aside class="sidebar" id="sidebar" aria-label="Menu des matières">
+    <div class="brand">
+      <div class="logo"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg></div>
+      <div>Cours SIO 1B<small>By Oscar</small></div>
+    </div>
+    <nav class="menu" id="menu"></nav>
+    <div class="side-foot">
+      <a id="addBtn" class="btn primary" style="flex:1" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Ajouter un document</a>
+    </div>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="content">
+    <header class="topbar">
+      <button class="icon-btn burger" id="burger" aria-label="Ouvrir le menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <div class="title">Cours SIO 1B (By Oscar)</div>
+      <label class="search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="search" type="search" placeholder="Rechercher un document…" autocomplete="off" aria-label="Rechercher">
+      </label>
+      <button class="icon-btn" id="theme" aria-label="Changer de thème" title="Thème clair / sombre">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </header>
+
+    <main class="card" id="main"><div class="empty">Chargement…</div></main>
+  </div>
 </div>
 
-<div id="viewer">
+<div id="viewer" role="dialog" aria-modal="true">
   <div class="box">
     <div class="bar">
-      <span id="vTitle"></span>
-      <a id="vDl" class="btn" download>Télécharger</a>
+      <span class="vt" id="vTitle"></span>
+      <a id="vTab" class="btn hide-m" target="_blank" rel="noopener">Nouvel onglet</a>
+      <a id="vDl" class="btn dark" download>Télécharger</a>
       <button class="btn" id="vClose">Fermer ✕</button>
     </div>
-    <div id="vBody" style="display:flex;flex:1;min-height:0"></div>
+    <div id="vBody"></div>
   </div>
 </div>
 
 <script>
 /* ============ CONFIGURATION ============ */
-const OWNER  = "Oscar-nexa";
-const REPO   = "Cours-SIO-1B.github.io";
+const OWNER = "Oscar-nexa";
+const REPO = "Cours-SIO-1B.github.io";
 const BRANCH = "main";
-const COURS_DIR = "cours";   // chaque sous-dossier = une rubrique de cours
+const COURS_DIR = "cours";   // chaque sous-dossier = une matière
 const DIVERS_DIR = "divers"; // documents hors cours
 /* ======================================= */
 
-const PREVIEW_EXT = ["pdf","png","jpg","jpeg","gif","webp","svg","txt","md"];
-const IMG_EXT = ["png","jpg","jpeg","gif","webp","svg"];
+const VIDEO_EXT = ["mp4","webm","ogv","m4v","mov"];
+const AUDIO_EXT = ["mp3","wav","ogg","m4a"];
+const IMG_EXT   = ["png","jpg","jpeg","gif","webp","svg"];
+const FRAME_EXT = ["pdf"];
+const TEXT_EXT  = ["txt","md","csv","json"];
 const $ = s => document.querySelector(s);
 const enc = p => p.split("/").map(encodeURIComponent).join("/");
 const ext = n => (n.includes(".") ? n.split(".").pop().toLowerCase() : "");
+const esc = s => String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const size = b => b > 1048576 ? (b/1048576).toFixed(1)+" Mo" : Math.max(1,Math.round(b/1024))+" Ko";
+const fmtDate = t => new Date(t).toLocaleDateString("fr-FR",{day:"numeric",month:"short",year:"numeric"});
+const kind = e => VIDEO_EXT.includes(e) ? "video" : AUDIO_EXT.includes(e) ? "audio" : IMG_EXT.includes(e) ? "img" : FRAME_EXT.includes(e) ? "frame" : TEXT_EXT.includes(e) ? "text" : "";
 
-let sections = [];   // {id,label,group,files:[{name,path,size,sub}]}
-let current = null;
+const ICON = {
+  chev:'<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>',
+  book:'<svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg>',
+  folder:'<svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>',
+  grid:'<svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>',
+  play:'<svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg>',
+  dl:'<svg viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>',
+  eye:'<svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+  empty:'<svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M4 14h5l1 2h4l1-2h5"/></svg>'
+};
+
+let sections = [];      // {id,label,group,files:[{name,path,sha,size,sub,date}]}
+let current = "__all";
+let sortDir = "asc";    // asc = du plus ancien au plus récent
+let open = {cours:true, autres:true};
+let dateJob = 0;
 
 $("#addBtn").href = `https://github.com/${OWNER}/${REPO}/upload/${BRANCH}/`;
 
+/* ---------- chargement de l'arborescence ---------- */
 async function load(){
   try{
     const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`);
     if(!r.ok) throw new Error(r.status===403 ? "Limite de requêtes GitHub atteinte, réessaie dans quelques minutes." : "Erreur GitHub ("+r.status+")");
-    const data = await r.json();
-    build(data.tree);
+    build((await r.json()).tree);
   }catch(e){
-    $("#main").innerHTML = `<div class="error">${e.message}</div>`;
+    $("#main").innerHTML = `<div class="error">${esc(e.message)}</div>`;
   }
 }
 
 function build(tree){
   const map = new Map();
   const get = (id,label,group) => { if(!map.has(id)) map.set(id,{id,label,group,files:[]}); return map.get(id); };
-
   for(const n of tree){
-    const parts = n.path.split("/");
-    // rubriques de cours : cours/<Rubrique>/...
-    if(parts[0]===COURS_DIR && parts.length>=3){
-      const s = get(parts[1], parts[1], "Cours");
-      if(n.type==="blob" && !parts[parts.length-1].startsWith(".")){
-        s.files.push({name:parts[parts.length-1], path:n.path, size:n.size, sub:parts.slice(2,-1).join(" / ")});
-      }
+    const p = n.path.split("/"), last = p[p.length-1];
+    if(p[0]===COURS_DIR && p.length>=3){
+      const s = get(p[1], p[1], "cours");
+      if(n.type==="blob" && !last.startsWith(".")) s.files.push({name:last,path:n.path,sha:n.sha,size:n.size,sub:p.slice(2,-1).join(" / ")});
     }
-    // divers/...
-    if(parts[0]===DIVERS_DIR && parts.length>=2 && n.type==="blob"){
-      const s = get("__divers","Divers","Autres");
-      if(!parts[parts.length-1].startsWith(".")){
-        s.files.push({name:parts[parts.length-1], path:n.path, size:n.size, sub:parts.slice(1,-1).join(" / ")});
-      }
+    if(p[0]===DIVERS_DIR && p.length>=2){
+      const s = get("__divers","Divers","autres");
+      if(n.type==="blob" && !last.startsWith(".")) s.files.push({name:last,path:n.path,sha:n.sha,size:n.size,sub:p.slice(1,-1).join(" / ")});
     }
   }
-  if(!map.has("__divers")) get("__divers","Divers","Autres");
-
-  sections = [...map.values()].sort((a,b)=>{
-    if(a.group!==b.group) return a.group==="Cours" ? -1 : 1;
-    return a.label.localeCompare(b.label,"fr");
-  });
-  sections.forEach(s=>s.files.sort((a,b)=>a.name.localeCompare(b.name,"fr",{numeric:true})));
-  current = (sections.find(s=>s.group==="Cours") || sections[0]).id;
+  if(!map.has("__divers")) get("__divers","Divers","autres");
+  sections = [...map.values()].sort((a,b)=> a.group!==b.group ? (a.group==="cours"?-1:1) : a.label.localeCompare(b.label,"fr"));
   render();
 }
 
-function renderNav(){
-  const nav = $("#nav"); nav.innerHTML = "";
-  let lastGroup = null;
-  const q = $("#search").value.trim();
-  const all = document.createElement("button");
-  if(q){
-    all.className = "active";
-    all.innerHTML = `<span>Résultats</span>`;
-    nav.appendChild(all);
-  }
-  for(const s of sections){
-    if(s.group!==lastGroup){ const h=document.createElement("h2"); h.textContent=s.group; nav.appendChild(h); lastGroup=s.group; }
-    const b = document.createElement("button");
-    if(!q && s.id===current) b.className="active";
-    b.innerHTML = `<span>${esc(s.label)}</span><span class="count">${s.files.length}</span>`;
-    b.onclick = () => { $("#search").value=""; current=s.id; render(); };
-    nav.appendChild(b);
-  }
+/* ---------- dates (création = premier commit du fichier) ---------- */
+async function fileDate(f){
+  const key = "d:"+f.path+":"+f.sha;
+  try{ const c = localStorage.getItem(key); if(c) return +c; }catch(e){}
+  const base = `https://api.github.com/repos/${OWNER}/${REPO}/commits?sha=${BRANCH}&path=${encodeURIComponent(f.path)}&per_page=1`;
+  let r = await fetch(base);
+  if(!r.ok) throw new Error("date");
+  let data = await r.json();
+  const m = (r.headers.get("link")||"").match(/<([^>]+)>;\s*rel="last"/);
+  if(m){ const r2 = await fetch(m[1]); if(r2.ok) data = await r2.json(); }
+  const t = Date.parse(data[0].commit.author.date);
+  try{ localStorage.setItem(key, String(t)); }catch(e){}
+  return t;
 }
 
-const esc = s => s.replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+async function loadDates(files, job){
+  const todo = files.filter(f=>!f.date);
+  for(const f of todo){
+    try{ const c = localStorage.getItem("d:"+f.path+":"+f.sha); if(c) f.date = +c; }catch(e){}
+  }
+  const rest = files.filter(f=>!f.date);
+  let i = 0, failed = false;
+  const worker = async () => {
+    while(i < rest.length && !failed){
+      const f = rest[i++];
+      try{ f.date = await fileDate(f); }catch(e){ failed = true; }
+    }
+  };
+  await Promise.all([worker(),worker(),worker()]);
+  if(job === dateJob) renderList(false);
+}
+
+/* ---------- affichage ---------- */
+function allFiles(){ return sections.flatMap(s=>s.files.map(f=>(f.rub=s.label, f))); }
+
+function currentFiles(){
+  const q = $("#search").value.trim().toLowerCase();
+  let files, title, sub;
+  if(q){
+    files = allFiles().filter(f=>(f.name+" "+f.sub+" "+f.rub).toLowerCase().includes(q));
+    title = "Résultats de recherche"; sub = `${files.length} document(s) pour « ${$("#search").value.trim()} »`;
+  }else if(current==="__all"){
+    files = allFiles(); title = "Tous les documents"; sub = "Toutes matières confondues";
+  }else{
+    const s = sections.find(x=>x.id===current) || sections[0];
+    s.files.forEach(f=>f.rub=s.label);
+    files = s.files; title = s.label; sub = s.group==="cours" ? "Matière" : "Documents non liés aux cours";
+  }
+  const dir = sortDir==="asc" ? 1 : -1;
+  files = [...files].sort((a,b)=>{
+    if(a.date && b.date) return (a.date-b.date)*dir;
+    if(a.date) return -1; if(b.date) return 1;
+    return a.name.localeCompare(b.name,"fr",{numeric:true});
+  });
+  return {files,title,sub,q};
+}
+
+function renderMenu(){
+  const total = allFiles().length;
+  const item = (id,label,count,icon) =>
+    `<button class="item-btn ${(!$("#search").value.trim() && current===id)?"active":""}" data-id="${esc(id)}">${icon}<span class="lbl">${esc(label)}</span><span class="cnt">${count}</span></button>`;
+  const grp = (key,label,list) => `
+    <button class="menu-title" data-grp="${key}" aria-expanded="${open[key]}">${label}${ICON.chev}</button>
+    <div class="group ${open[key]?"":"closed"}" id="g-${key}" style="max-height:${list.length*52+10}px">${list.map(s=>item(s.id,s.label,s.files.length,ICON.folder)).join("")}</div>`;
+  $("#menu").innerHTML =
+    item("__all","Tous les documents",total,ICON.grid) +
+    grp("cours","Matières",sections.filter(s=>s.group==="cours")) +
+    grp("autres","Autres",sections.filter(s=>s.group==="autres"));
+  $("#menu").querySelectorAll(".item-btn").forEach(b=>b.onclick=()=>{
+    $("#search").value=""; current=b.dataset.id; document.body.classList.remove("menu-open"); render();
+  });
+  $("#menu").querySelectorAll(".menu-title").forEach(b=>b.onclick=()=>{
+    const k=b.dataset.grp; open[k]=!open[k];
+    b.setAttribute("aria-expanded",open[k]); $("#g-"+k).classList.toggle("closed",!open[k]);
+  });
+}
 
 function render(){
-  renderNav();
-  const q = $("#search").value.trim().toLowerCase();
-  let title, subtitle, files;
-  if(q){
-    title = "Résultats de recherche";
-    files = sections.flatMap(s=>s.files.map(f=>({...f,rub:s.label}))).filter(f=>(f.name+" "+f.sub+" "+f.rub).toLowerCase().includes(q));
-    subtitle = `${files.length} document(s)`;
-  }else{
-    const s = sections.find(x=>x.id===current);
-    title = s.label;
-    files = s.files.map(f=>({...f,rub:s.label}));
-    subtitle = s.group==="Cours" ? "Rubrique de cours" : "Documents non liés aux cours";
-  }
-  const main = $("#main");
-  let html = `<h2>${esc(title)}</h2><p class="sub">${esc(subtitle)}</p>`;
-  if(!files.length){
-    html += `<div class="list"><div class="empty">Aucun document ici pour l'instant.</div></div>`;
-  }else{
-    html += `<div class="list">` + files.map((f,i)=>{
-      const e = ext(f.name), url = enc(f.path);
-      const canView = PREVIEW_EXT.includes(e);
-      const meta = [q ? f.rub : "", f.sub, size(f.size||0)].filter(Boolean).join(" · ");
-      return `<div class="item">
-        <div class="ext">${esc(e||"fichier")}</div>
-        <div class="info"><div class="name">${esc(f.name)}</div><div class="meta">${esc(meta)}</div></div>
-        <div class="actions">
-          ${canView ? `<button class="btn" data-view="${i}">Ouvrir</button>` : ""}
-          <a class="btn" href="${url}" download="${esc(f.name)}">Télécharger</a>
-        </div></div>`;
-    }).join("") + `</div>`;
-  }
-  main.innerHTML = html;
-  main.querySelectorAll("[data-view]").forEach(b=>b.onclick=()=>openViewer(files[+b.dataset.view]));
+  renderMenu();
+  renderList(true);
 }
 
-function openViewer(f){
-  const url = enc(f.path), e = ext(f.name);
+function renderList(reload){
+  const {files,title,sub,q} = currentFiles();
+  let html = `<div class="crumbs">Cours SIO 1B › <b>${esc(title)}</b></div>
+    <div class="head"><div><h2>${esc(title)}</h2><p>${esc(sub)}</p></div>
+    <div class="sort">Trier :
+      <button class="btn" id="sortBtn">${sortDir==="asc" ? "Plus ancien → récent" : "Plus récent → ancien"}</button></div></div>`;
+  if(!files.length){
+    html += `<div class="empty">${ICON.empty}<div>Aucun document ici pour l'instant.</div></div>`;
+  }else{
+    html += `<div class="files">` + files.map((f,i)=>{
+      const e = ext(f.name), k = kind(e), url = enc(f.path);
+      const meta = [f.date ? "Ajouté le "+fmtDate(f.date) : "", size(f.size||0)].filter(Boolean).join(" · ");
+      const chips = (q || current==="__all" ? `<span class="chip">${esc(f.rub)}</span>` : "") + (f.sub ? `<span class="chip">${esc(f.sub)}</span>` : "");
+      const label = k==="video" ? "Lire" : k==="audio" ? "Écouter" : "Ouvrir";
+      return `<article class="file">
+        <div class="file-top">
+          <div class="badge ${k==="video"?"video":""}">${k==="video" ? ICON.play : esc(e||"fichier")}</div>
+          <div style="min-width:0"><div class="fname">${esc(f.name)}</div><div class="meta">${chips}${esc(meta)}</div></div>
+        </div>
+        <div class="acts">
+          ${k ? `<button class="btn dark" data-view="${i}">${k==="video"||k==="audio"?ICON.play:ICON.eye} ${label}</button>` : ""}
+          <a class="btn" href="${url}" download="${esc(f.name)}">${ICON.dl} Télécharger</a>
+        </div></article>`;
+    }).join("") + `</div>`;
+  }
+  $("#main").innerHTML = html;
+  $("#main").querySelectorAll("[data-view]").forEach(b=>b.onclick=()=>openViewer(files[+b.dataset.view]));
+  const sb = $("#sortBtn");
+  if(sb) sb.onclick = () => { sortDir = sortDir==="asc" ? "desc" : "asc"; renderList(false); };
+  if(reload){ const job = ++dateJob; loadDates(files, job); }
+}
+
+/* ---------- visionneuse (PDF, images, vidéos, audio, texte) ---------- */
+async function openViewer(f){
+  const url = enc(f.path), e = ext(f.name), k = kind(e);
   $("#vTitle").textContent = f.name;
   $("#vDl").href = url; $("#vDl").setAttribute("download", f.name);
-  $("#vBody").innerHTML = IMG_EXT.includes(e) ? `<img src="${url}" alt="">` : `<iframe src="${url}" title="${esc(f.name)}"></iframe>`;
+  $("#vTab").href = url;
+  const body = $("#vBody");
+  if(k==="video") body.innerHTML = `<video src="${url}" controls autoplay playsinline preload="metadata"></video>`;
+  else if(k==="audio") body.innerHTML = `<audio src="${url}" controls autoplay></audio>`;
+  else if(k==="img") body.innerHTML = `<img src="${url}" alt="${esc(f.name)}">`;
+  else if(k==="text"){
+    body.innerHTML = `<pre>Chargement…</pre>`;
+    try{ const t = await (await fetch(url)).text(); body.firstChild.textContent = t; }catch(err){ body.firstChild.textContent = "Impossible d'afficher ce fichier."; }
+  }else body.innerHTML = `<iframe src="${url}" title="${esc(f.name)}"></iframe>`;
   $("#viewer").classList.add("open");
 }
 function closeViewer(){ $("#viewer").classList.remove("open"); $("#vBody").innerHTML=""; }
 $("#vClose").onclick = closeViewer;
 $("#viewer").onclick = e => { if(e.target.id==="viewer") closeViewer(); };
-document.addEventListener("keydown", e => { if(e.key==="Escape") closeViewer(); });
+document.addEventListener("keydown", e => { if(e.key==="Escape"){ closeViewer(); document.body.classList.remove("menu-open"); } });
+
+/* ---------- menu mobile, recherche, thème ---------- */
+$("#burger").onclick = () => document.body.classList.toggle("menu-open");
+$("#scrim").onclick = () => document.body.classList.remove("menu-open");
 $("#search").addEventListener("input", render);
+$("#theme").onclick = () => {
+  const root = document.documentElement;
+  const dark = root.dataset.theme ? root.dataset.theme==="dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  root.dataset.theme = dark ? "light" : "dark";
+  try{ localStorage.setItem("theme", root.dataset.theme); }catch(e){}
+};
+try{ const t = localStorage.getItem("theme"); if(t) document.documentElement.dataset.theme = t; }catch(e){}
 
 load();
 </script>
